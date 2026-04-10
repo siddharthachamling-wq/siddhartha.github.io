@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Alex Morgan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     SIMPLE PORTFOLIO — Pantone Yellow 012 C + Dark/Light Theme
+     EDIT: change --yellow in both [data-theme] blocks to retheme
+  ============================================================ */
+
+  [data-theme="light"] {
+    --yellow:  #FFD700;
+    --bg:      #ffffff;
+    --bg-soft: #f7f7f5;
+    --black:   #111111;
+    --body:    #555555;
+    --muted:   #aaaaaa;
+    --border:  #e8e8e5;
+    --card-bg: #f7f7f5;
+  }
+
+  [data-theme="dark"] {
+    --yellow:  #FFD700;
+    --bg:      #111111;
+    --bg-soft: #191919;
+    --black:   #f0ede6;
+    --body:    #999999;
+    --muted:   #555555;
+    --border:  #2a2a2a;
+    --card-bg: #1a1a1a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--body);
+    background: var(--bg);
+    line-height: 1.7;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img { display: block; width: 100%; object-fit: cover; }
+
+  /* ---- NAV ---- */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 2.5rem;
+    height: 60px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 400;
+    color: var(--black);
+    transition: color 0.3s;
+  }
+  .nav-right { display: flex; gap: 2rem; align-items: center; }
+  .nav-links { display: flex; gap: 2rem; align-items: center; }
+  .nav-links a {
+    font-size: 13px; font-weight: 300; color: var(--body);
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--black); }
+  .nav-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--yellow); display: inline-block; }
+
+  /* Theme toggle */
+  .theme-toggle {
+    width: 40px; height: 22px;
+    border-radius: 11px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s;
+    flex-shrink: 0;
+  }
+  .theme-toggle::after {
+    content: '';
+    position: absolute;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--yellow);
+    top: 2px; left: 2px;
+    transition: transform 0.25s ease;
+  }
+  [data-theme="dark"] .theme-toggle::after { transform: translateX(18px); }
+  [data-theme="dark"] .theme-toggle { background: #2a2a2a; border-color: #2a2a2a; }
+
+  /* ---- HERO ---- */
+  #hero {
+    padding: 7rem 2.5rem 5rem;
+    max-width: 900px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 4rem; align-items: end;
+  }
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 300; line-height: 1;
+    color: var(--black); letter-spacing: -1px;
+    margin-bottom: 1.25rem;
+    transition: color 0.3s;
+  }
+  .hero-name em { font-style: italic; }
+  .hero-tagline {
+    font-size: 15px; font-weight: 300; color: var(--body);
+    max-width: 380px; line-height: 1.8;
+    border-left: 2px solid var(--yellow);
+    padding-left: 1rem;
+    transition: color 0.3s;
+  }
+  .hero-meta {
+    text-align: right;
+    font-size: 12px; font-weight: 300; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--muted);
+    line-height: 2.2;
+    transition: color 0.3s;
+  }
+  .hero-meta strong {
+    display: block; font-size: 22px; font-weight: 400;
+    color: var(--black); letter-spacing: 0; text-transform: none;
+    line-height: 1.1; margin-bottom: 2px;
+    transition: color 0.3s;
+  }
+  .hero-cta { margin-top: 2.5rem; display: flex; gap: 1rem; }
+  .btn {
+    display: inline-block; font-size: 13px; font-weight: 400;
+    padding: 11px 26px;
+    border: 1px solid var(--black); color: var(--black);
+    background: transparent; cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.3s;
+  }
+  .btn:hover { background: var(--black); color: var(--bg); }
+  .btn-fill { background: var(--yellow); border-color: var(--yellow); color: #111; }
+  .btn-fill:hover { background: #e6c200; border-color: #e6c200; color: #111; }
+
+  /* ---- DIVIDER ---- */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 0 2.5rem; transition: border-color 0.3s; }
+
+  /* ---- SECTION ---- */
+  .section { max-width: 900px; margin: 0 auto; padding: 5rem 2.5rem; }
+  .section-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 2.5rem;
+    display: flex; align-items: center; gap: 10px;
+    transition: color 0.3s;
+  }
+  .section-label::before { content: ''; display: block; width: 20px; height: 1px; background: var(--yellow); }
+
+  /* ---- WORK ---- */
+  .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .work-card { cursor: pointer; }
+  .work-thumb {
+    aspect-ratio: 4/3; background: var(--card-bg); overflow: hidden;
+    margin-bottom: 1rem; display: flex; align-items: center; justify-content: center;
+    position: relative; transition: background 0.3s;
+  }
+  .work-card.featured .work-thumb { aspect-ratio: 16/7; }
+  .work-ph { font-size: 36px; opacity: 0.15; transition: opacity 0.3s, transform 0.4s; }
+  .work-card:hover .work-ph { opacity: 0.3; transform: scale(1.05); }
+  .work-thumb-overlay {
+    position: absolute; inset: 0; background: transparent;
+    transition: background 0.3s;
+  }
+  .work-card:hover .work-thumb-overlay { background: rgba(0,0,0,0.04); }
+  .work-info { display: flex; justify-content: space-between; align-items: baseline; }
+  .work-title { font-size: 15px; font-weight: 400; color: var(--black); transition: color 0.3s; }
+  .work-cat { font-size: 11px; font-weight: 300; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); transition: color 0.3s; }
+  .work-desc { font-size: 13px; font-weight: 300; color: var(--muted); margin-top: 3px; transition: color 0.3s; }
+
+  /* ---- ABOUT ---- */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .about-img {
+    aspect-ratio: 3/4; background: var(--card-bg);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.3s;
+  }
+  .about-img-ph { font-size: 40px; opacity: 0.12; }
+  .about-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px; font-weight: 300; line-height: 1.1;
+    color: var(--black); margin-bottom: 1.5rem;
+    transition: color 0.3s;
+  }
+  .about-bio { font-size: 15px; font-weight: 300; line-height: 1.9; color: var(--body); margin-bottom: 1.25rem; transition: color 0.3s; }
+  .about-bio strong { color: var(--black); font-weight: 400; transition: color 0.3s; }
+  .skills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; }
+  .skill {
+    font-size: 12px; font-weight: 300; padding: 5px 13px;
+    border: 1px solid var(--border); color: var(--body);
+    transition: border-color 0.2s, color 0.2s, background 0.3s;
+  }
+  .skill:hover { border-color: var(--yellow); color: var(--black); }
+
+  /* ---- SERVICES ---- */
+  #services-sec { background: var(--bg-soft); transition: background 0.3s; }
+  #services-sec .section { padding: 5rem 2.5rem; }
+  .services-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+  .svc { border-top: 1px solid var(--border); padding-top: 1.25rem; transition: border-color 0.3s; }
+  .svc-accent { width: 24px; height: 2px; background: var(--yellow); margin-bottom: 0.75rem; }
+  .svc-num { font-size: 11px; font-weight: 300; letter-spacing: 2px; color: var(--muted); margin-bottom: 0.75rem; transition: color 0.3s; }
+  .svc-name { font-size: 15px; font-weight: 400; color: var(--black); margin-bottom: 0.6rem; transition: color 0.3s; }
+  .svc-desc { font-size: 13px; font-weight: 300; color: var(--body); line-height: 1.7; transition: color 0.3s; }
+
+  /* ---- CONTACT ---- */
+  .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
+  .contact-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px; font-weight: 300; line-height: 1.1;
+    color: var(--black); margin-bottom: 1.5rem;
+    transition: color 0.3s;
+  }
+  .contact-email {
+    font-size: 16px; font-weight: 300; color: var(--black);
+    border-bottom: 1px solid var(--yellow); padding-bottom: 2px;
+    display: inline-block; margin-bottom: 1.5rem;
+    transition: opacity 0.2s, color 0.3s;
+  }
+  .contact-email:hover { opacity: 0.6; }
+  .socials { display: flex; gap: 1.5rem; }
+  .socials a { font-size: 13px; font-weight: 300; color: var(--muted); transition: color 0.2s; }
+  .socials a:hover { color: var(--black); }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1.25rem; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field label { font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); transition: color 0.3s; }
+  .field input, .field textarea {
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300;
+    border: none; border-bottom: 1px solid var(--border);
+    padding: 10px 0; background: transparent; color: var(--black);
+    outline: none; resize: none;
+    transition: border-color 0.2s, color 0.3s;
+  }
+  .field input:focus, .field textarea:focus { border-color: var(--yellow); }
+  .field input::placeholder, .field textarea::placeholder { color: var(--muted); }
+
+  /* ---- FOOTER ---- */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.75rem 2.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 900px; margin: 0 auto;
+    transition: border-color 0.3s;
+  }
+  .footer-name { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 300; color: var(--black); transition: color 0.3s; }
+  .footer-copy { font-size: 12px; font-weight: 300; color: var(--muted); transition: color 0.3s; }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 720px) {
+    #hero { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-meta { text-align: left; }
+    .work-grid, .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .services-list { grid-template-columns: 1fr 1fr; }
+    nav { padding: 0 1.5rem; }
+    .section { padding: 4rem 1.5rem; }
+    .divider { margin: 0 1.5rem; }
+  }
+  @media (max-width: 460px) {
+    .services-list { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <!-- EDIT: your name -->
+  <div class="logo">Siddhartha Chalming</div>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <span class="nav-dot"></span>
+      <!-- EDIT: your email -->
+      <a href="mailto:hello@alexmorgan.com">siddharthachamling@gmail.com</a>
+    </div>
+    <!-- Theme toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark/light mode"></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div>
+    <!-- EDIT: your name -->
+    <h1 class="hero-name">Siddhartha<br><em>Chamling.</em></h1>
+    <!-- EDIT: your tagline -->
+    <p class="hero-tagline">Brand identity and visual design for companies that want to be remembered.</p>
+    <div class="hero-cta">
+      <a href="#work" class="btn btn-fill">View work</a>
+      <a href="#contact" class="btn">Get in touch</a>
+    </div>
+  </div>
+  <div class="hero-meta">
+    <!-- EDIT: your stats -->
+    <strong>10</strong>Projects
+    <strong>2</strong>Years
+    <strong>5</strong>Clients
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- WORK -->
+<div id="work" class="section">
+  <p class="section-label">Selected work</p>
+
+  <!-- EDIT: featured project -->
+  <div class="work-card featured" style="margin-bottom:1.5rem;">
+    <div class="work-thumb">
+      <!-- EDIT: <img src="featured.jpg" alt="Bloom Rebrand"> -->
+      <span class="work-ph">◈</span>
+      <div class="work-thumb-overlay"></div>
+    </div>
+    <div class="work-info">
+      <div>
+        <div class="work-title">Bloom Studio Rebrand</div>
+        <div class="work-desc">Full visual identity system — logo, type, colour</div>
+      </div>
+      <div class="work-cat">Brand Identity · 2025</div>
+    </div>
+  </div>
+
+  <!-- EDIT: your 4 projects -->
+  <div class="work-grid">
+    <div class="work-card">
+      <div class="work-thumb">
+        <!-- EDIT: <img src="project2.jpg" alt="Nova App"> -->
+        <span class="work-ph">🎨</span>
+        <div class="work-thumb-overlay"></div>
+      </div>
+      <div class="work-info">
+        <div>
+          <div class="work-title">Nova App</div>
+          <div class="work-desc">Product design & prototyping</div>
+        </div>
+        <div class="work-cat">UI/UX</div>
+      </div>
+    </div>
+
+    <div class="work-card">
+      <div class="work-thumb">
+        <span class="work-ph">✦</span>
+        <div class="work-thumb-overlay"></div>
+      </div>
+      <div class="work-info">
+        <div>
+          <div class="work-title">Luxe Packaging</div>
+          <div class="work-desc">Luxury print & packaging</div>
+        </div>
+        <div class="work-cat">Print</div>
+      </div>
+    </div>
+
+    <div class="work-card">
+      <div class="work-thumb">
+        <span class="work-ph">◉</span>
+        <div class="work-thumb-overlay"></div>
+      </div>
+      <div class="work-info">
+        <div>
+          <div class="work-title">Soleil Campaign</div>
+          <div class="work-desc">Art direction & photography</div>
+        </div>
+        <div class="work-cat">Art Direction</div>
+      </div>
+    </div>
+
+    <div class="work-card">
+      <div class="work-thumb">
+        <span class="work-ph">⬡</span>
+        <div class="work-thumb-overlay"></div>
+      </div>
+      <div class="work-info">
+        <div>
+          <div class="work-title">Meridian Website</div>
+          <div class="work-desc">Web design & development</div>
+        </div>
+        <div class="work-cat">Digital</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ABOUT -->
+<div id="about" class="section">
+  <p class="section-label">About</p>
+  <div class="about-grid">
+    <div class="about-img">
+      <!-- EDIT: <img src="your-photo.jpg" alt="Alex Morgan" style="width:100%;height:100%;object-fit:cover;"> -->
+      <span class="about-img-ph">◈</span>
+    </div>
+    <div>
+      <!-- EDIT: your title -->
+      <h2 class="about-title">Creative<br>designer &<br>art director.</h2>
+      <!-- EDIT: your bio -->
+      <p class="about-bio">I'm a <strong>London-based designer</strong> with 6+ years crafting visual identities, digital products, and campaigns for ambitious brands across Europe and the US.</p>
+      <p class="about-bio">I work best with founders and creative teams who know what they stand for — and need the visuals to prove it.</p>
+      <!-- EDIT: your skills -->
+      <div class="skills">
+        <span class="skill">Brand Identity</span>
+        <span class="skill">UI / UX</span>
+        <span class="skill">Art Direction</span>
+        <span class="skill">Typography</span>
+        <span class="skill">Motion</span>
+        <span class="skill">Print</span>
+        <span class="skill">Figma</span>
+      </div>
+      <a href="#contact" class="btn btn-fill">Work with me</a>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<div id="services-sec">
+  <div class="section">
+    <p class="section-label">Services</p>
+    <div class="services-list">
+      <!-- EDIT: your services -->
+      <div class="svc">
+        <div class="svc-accent"></div>
+        <div class="svc-num">01</div>
+        <div class="svc-name">Brand Identity</div>
+        <div class="svc-desc">Logo, colour, typography — a complete visual system.</div>
+      </div>
+      <div class="svc">
+        <div class="svc-accent"></div>
+        <div class="svc-num">02</div>
+        <div class="svc-name">UI / UX Design</div>
+        <div class="svc-desc">Beautiful, intuitive digital experiences.</div>
+      </div>
+      <div class="svc">
+        <div class="svc-accent"></div>
+        <div class="svc-num">03</div>
+        <div class="svc-name">Art Direction</div>
+        <div class="svc-desc">Creative direction for campaigns and editorial.</div>
+      </div>
+      <div class="svc">
+        <div class="svc-accent"></div>
+        <div class="svc-num">04</div>
+        <div class="svc-name">Motion Design</div>
+        <div class="svc-desc">Animation and motion for brands and products.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- CONTACT -->
+<div id="contact" class="section">
+  <p class="section-label">Get in touch</p>
+  <div class="contact-inner">
+    <div>
+      <h2 class="contact-headline">Let's make<br>something<br>great.</h2>
+      <!-- EDIT: your email -->
+      <a class="contact-email" href="mailto:siddharthachamling@gmail.com">siddharthachamling@gmail.com</a>
+      <!-- EDIT: your social links -->
+      <div class="socials">
+        <a href="#">Instagram</a>
+        <a href="#">Behance</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+    <!-- EDIT: wire up form to Formspree / Netlify Forms -->
+    <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent!')">
+      <div class="field">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your name" required>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+      </div>
+      <div class="field">
+        <label for="msg">Message</label>
+        <textarea id="msg" name="message" rows="4" placeholder="Tell me about your project..."></textarea>
+      </div>
+      <button type="submit" class="btn btn-fill" style="align-self:flex-start;">Send message</button>
+    </form>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <!-- EDIT: your name + year -->
+  <div class="footer-name">Siddhartha Chamling</div>
+  <div class="footer-copy">© 2026. All rights reserved.</div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('themeToggle');
+  const html = document.documentElement;
+
+  // Respect system preference on first load
+  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    html.setAttribute('data-theme', 'dark');
+  }
+
+  toggle.addEventListener('click', () => {
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+</script>
+</body>
+</html>
